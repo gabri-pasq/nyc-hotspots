@@ -8,10 +8,19 @@ class Controller:
         # the model, which implements the logic of the program and holds the data
         self._model = model
 
-    def handle_hello(self, e):
-        name = self._view.txt_name.value
-        if name is None or name == "":
-            self._view.create_alert("Inserire il nome")
-            return
-        self._view.txt_result.controls.append(ft.Text(f"Hello, {name}!"))
+    def fillProviders(self):
+        providers = self._model.getPronviders()
+        for p in providers:
+            self._view.ddProvider.options.append(ft.dropdown.Option(text=p, key=p))
         self._view.update_page()
+    def handleCrea(self, e):
+        lista = self._model.creaGrafo(self._view.ddProvider.value, self._view.txtDistanza.value)
+        self._view.txt_result.controls.append(ft.Text(self._model.grafoDetatails()))
+        for l in lista:
+            self._view.txt_result.controls.append(ft.Text(f"{l[0]} - nodi: {l[1]}"))
+        self._view.update_page()
+    def handleAnalisi(self, e):
+        pass
+
+    def handleCalcola(self, e):
+        pass
